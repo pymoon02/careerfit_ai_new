@@ -10,10 +10,7 @@
 
 
 
-Q1) 취업 또는 공모전을 준비하면서 어려웠던 점은?
-- 어떤 스킬을 준비해야 할지 모른다.
-- 어느 정도 수준으로 준비해야 하는지 모르겠다.
-
+사용자의 스펙을 분석해 적절한 회사나 업무 선택
 
 
 ## 기술 스택
@@ -33,6 +30,22 @@ Q1) 취업 또는 공모전을 준비하면서 어려웠던 점은?
 | 프론트엔드 | React, Vite |
 
 | 실행 환경 | Docker |
+
+## 로컬 실행 방법
+
+## 사전 요구사항
+- Python 3.12 이상
+- Gemini API key
+
+## 백엔드 실행
+- ```bash
+- cd backend
+- python -m venv venv
+- venv\Scripts\activate
+- pip install -r requirements.txt
+
+#.env 파일 생성 (env.example 참고)
+
 
 ## 진행 현황
 
