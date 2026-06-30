@@ -44,7 +44,20 @@
 - venv\Scripts\activate
 - pip install -r requirements.txt
 
-#.env 파일 생성 (env.example 참고)
+# .env 파일 생성 (env.example 참고)
+- cp.env.example.env
+# .env 파일을 열고 GEMINI_API_KEY 입력
+
+- uvicorn main:app--reload--port8000
+
+API문서 : http://localhost:8000/docs
+
+## API 엔드포인트
+|메서드|경로|설명|
+|---|---|---|
+|GET|/health|서버 상태 확인|
+|GET/jobs|취업 공고 목록 조회|
+|POST|/analyze|역량 분석 및 추천|
 
 
 ## 진행 현황
@@ -53,7 +66,7 @@
 
 - [x] 1일차: 프로젝트 기획 및 개발 환경 세팅
 
-- [ ] 2일차: FastAPI 서버 구축 및 Gemini API 연결
+- [x] 2일차: FastAPI 서버 구축 및 Gemini API 연결
 
 - [ ] 3일차: 데이터 파이프라인 구축
 
