@@ -173,7 +173,6 @@ def remove_duplicates(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-# 스킬 키워드 표준화
 SKILL_NORMALIZATION = {
 
     "python": "Python",
@@ -202,6 +201,7 @@ SKILL_NORMALIZATION = {
 
 }
 
+# 스킬 키워드 표준화
 def normalize_skills(skills_str: str) -> str:
 
     """
@@ -260,6 +260,71 @@ def standardize_skills(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
+#SQLite 저장용 함수
+import sqlite3
+
+def save_to_sqlite(df: pd.DataFrame, db_path: str) -> None:
+    """
+    전처리된 DataFrame을 SQLite 데이터베이스에 저장합니다.
+
+    요리 비유:
+    손질이 끝난 재료를 냉장고(SQLite)에 정리해서 넣는 단계입니다.
+    """
+    print(f"\n=== SQLite 저장 ===")
+
+    conn = sqlite3.connect(db_path)
+
+    # DataFrame을 SQL 테이블로 저장
+    # if_exists="replace": 테이블이 이미 있으면 덮어씁니다
+    df.to_sql("jobs", conn, if_exists="replace", index=False)
+
+    # 저장 확인
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM jobs")
+    count = cursor.fetchone()[0]
+
+    print(f"   ✅ 저장 완료: jobs 테이블에 {count}행 저장됨")
+    print(f"   파일 위치: {db_path}")
+
+    conn.close()
+
+# SQLite 조회용 함수
+def query_sqlite(db_path: str) -> None:
+    """
+    SQLite에서 데이터를 조회해 저장 결과를 확인합니다.
+    """
+    print(f"\n=== SQLite 조회 테스트 ===")
+    conn = sqlite3.connect(db_path)
+
+    # 1. 전체 행 수
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM jobs")
+    print(f"   전체 공고 수: {cursor.fetchone()[0]}개")
+
+    # 2. 직무 분류별 개수
+    print("\n   [직무 분류별 공고 수]")
+    cursor.execute("""
+        SELECT job_type, COUNT(*) as count
+        FROM jobs
+        GROUP BY job_type
+        ORDER BY count DESC
+    """)
+    for row in cursor.fetchall():
+        print(f"   - {row[0]}: {row[1]}개")
+
+    # 3. Python 필수 스킬 공고만 조회
+    print("\n   [Python이 필요한 공고]")
+    cursor.execute("""
+        SELECT company, title, required_skills
+        FROM jobs
+        WHERE required_skills LIKE '%Python%'
+        LIMIT 3
+    """)
+    for row in cursor.fetchall():
+        print(f"   - {row[0]} | {row[1]}")
+        print(f"     스킬: {row[2]}")
+
+    conn.close()
 
 # main 블록에서 실행
 if __name__ == "__main__":
@@ -283,5 +348,11 @@ if __name__ == "__main__":
     # 5. 스킬 키워드 표준화
 
     df_jobs = standardize_skills(df_jobs)
+
+    # 6. SQLite 저장
+    save_to_sqlite(df_jobs, DB_PATH)
+
+    # 7. SQLite 조회
+    query_sqlite(DB_PATH)
 
     print(f"\n✅ 전처리 완료: 최종 {len(df_jobs)}행")
