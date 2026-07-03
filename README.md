@@ -10,7 +10,8 @@
 
 
 
-사용자의 스펙을 분석해 적절한 회사나 업무 선택
+CareerFit AI는 사용자의 전공, 보유 기술, 관심 직무를 바탕으로 적합한 취업 공고를 추천하고 필요한 역량을 분석하는 AI 서비스입니다.
+취업 준비생이 수많은 채용 공고를 직접 비교하지 않아도 자신의 역량과 적합한 직무를 쉽게 파악할 수 있도록 돕는 것을 목표로 합니다.
 
 
 ## 기술 스택
@@ -38,17 +39,17 @@
 - Gemini API key
 
 ## 백엔드 실행
-- ```bash
-- cd backend
-- python -m venv venv
-- venv\Scripts\activate
-- pip install -r requirements.txt
+cd backend
+python -m venv vene
+
+#Windows
+venv\Scripts\activate
+
+pip install -r requirements.txt
 
 # .env 파일 생성 (env.example 참고)
-- cp.env.example.env
-# .env 파일을 열고 GEMINI_API_KEY 입력
+uvicorn main:app --reload --port 8000
 
-- uvicorn main:app--reload--port8000
 
 API문서 : http://localhost:8000/docs
 
@@ -59,6 +60,16 @@ API문서 : http://localhost:8000/docs
 |GET/jobs|취업 공고 목록 조회|
 |POST|/analyze|역량 분석 및 추천|
 
+## 데이터셋 구성
+ jobs.csv는 한국 취업 시장을 반영한 목업 채용 공고 데이터입니다.
+
+ - company : 기업명(유사 기업명 사용)
+ - title : 채용 직무
+ - required_skills : 필수 기술
+ - preferred_skills : 우대 기술
+ - description : 직무 설명
+ - job_type : 직무 분야
+ - deadline : 지원 마감일
 
 ## 진행 현황
 

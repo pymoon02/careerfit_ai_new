@@ -10,7 +10,7 @@ Q1) 취업 또는 공모전을 준비하면서 어려웠던 점은?
 
 Q2) CareerFit AI가 이 문제를 어떻게 해결하는가?
 - 직무별 요구 스킬을 데이터로 정리한다.
-- 내 역량과 비교해 부족한 것만 알려준다.
+- 내 역량과 비교해 부족한 역량을 알려준다.
 
 ## 2. 사용자 정의
 
@@ -30,9 +30,28 @@ Q2) CareerFit AI가 이 문제를 어떻게 해결하는가?
 
 ## 3. 데이터 계획
 
-- 취업 공고 컬럼: [2단계에서 설계한 항목들]
+- 취업 공고 데이터 (jobs.csv)
 
-- 공모전 컬럼: [2단계에서 설계한 항목들]
+컬럼	설명
+company	기업명(유사 이름 사용)
+title	채용 직무
+required_skills	필수 기술
+preferred_skills	우대 기술
+description	직무 설명
+job_type	직무 분야
+deadline	지원 마감일
+
+- 공모전 데이터 (competitions.csv)
+
+컬럼	설명
+organizer	주최 기관
+title	공모전명
+category	분야
+target	참가 대상
+required_skills	관련 기술
+description	공모전 소개
+deadline	접수 마감일
+
 
 - 데이터 출처: 강사 제공 목업 CSV (3일차)
 
