@@ -132,3 +132,156 @@ def handle_missing(df: pd.DataFrame) -> pd.DataFrame:
     print(f"   처리 전: {before}행 → 처리 후: {after}행")
     print(f"   제거된 행: {before - after}행")
     return df
+
+# 중복 확인 및 제거
+def remove_duplicates(df: pd.DataFrame) -> pd.DataFrame:
+
+    """
+
+    중복 행을 확인하고 제거합니다.
+
+    company + title 조합이 같으면 중복으로 판단합니다.
+
+    """
+
+    print("\n=== 중복 확인 ===")
+
+    before = len(df)
+
+    # company + title 기준으로 중복 확인
+
+    duplicated = df.duplicated(subset=["company", "title"], keep=False)
+
+    if duplicated.sum() > 0:
+
+        print(f"   ⚠️  중복 발견: {duplicated.sum()}행")
+
+        print(df[duplicated][["company", "title"]])
+
+    else:
+
+        print("   ✅ 중복 없음")
+
+    # 첫 번째 행만 남기고 중복 제거
+
+    df = df.drop_duplicates(subset=["company", "title"], keep="first")
+
+    after = len(df)
+
+    print(f"   제거 후: {after}행 (제거: {before - after}행)")
+
+    return df
+
+
+# 스킬 키워드 표준화
+SKILL_NORMALIZATION = {
+
+    "python": "Python",
+
+    "sql": "SQL",
+
+    "ai": "AI",
+
+    "ml": "머신러닝",
+
+    "machine learning": "머신러닝",
+
+    "deep learning": "딥러닝",
+
+    "r": "R",         # 대소문자 주의
+
+    "js": "JavaScript",
+
+    "javascript": "JavaScript",
+
+    "tableau": "Tableau",
+
+    "powerbi": "Power BI",
+
+    "power bi": "Power BI",
+
+}
+
+def normalize_skills(skills_str: str) -> str:
+
+    """
+
+    스킬 키워드 문자열을 표준화합니다.
+
+    입력: "python, sql, Machine Learning"
+
+    출력: "Python, SQL, 머신러닝"
+
+    """
+
+    if not isinstance(skills_str, str) or not skills_str.strip():
+
+        return ""
+
+    skills = [s.strip() for s in skills_str.split(",")]
+
+    normalized = []
+
+    for skill in skills:
+
+        # 소문자로 변환해서 사전에서 찾기
+
+        lower = skill.lower()
+
+        # 사전에 있으면 표준화된 이름으로, 없으면 원래 값 유지
+
+        normalized.append(SKILL_NORMALIZATION.get(lower, skill))
+
+    return ", ".join(normalized)
+
+def standardize_skills(df: pd.DataFrame) -> pd.DataFrame:
+
+    """
+
+    required_skills, preferred_skills 컬럼 전체에 표준화를 적용합니다.
+
+    """
+
+    print("\n=== 스킬 키워드 표준화 ===")
+
+    for col in ["required_skills", "preferred_skills"]:
+
+        if col in df.columns:
+
+            df[col] = df[col].apply(normalize_skills)
+
+    print(" ✅ 표준화 완료")
+
+    # 표준화 결과 샘플 출력
+
+    print("\n [표준화 전후 비교 샘플]")
+
+    print(df[["title", "required_skills"]].head(3).to_string())
+
+    return df
+
+
+# main 블록에서 실행
+if __name__ == "__main__":
+
+    # 1. 읽기
+
+    df_jobs = load_data(JOBS_CSV)
+
+    # 2. 결측치 확인
+
+    df_jobs = check_missing(df_jobs)
+
+    # 3. 결측치 처리
+
+    df_jobs = handle_missing(df_jobs)
+
+    # 4. 중복 제거
+
+    df_jobs = remove_duplicates(df_jobs)
+
+    # 5. 스킬 키워드 표준화
+
+    df_jobs = standardize_skills(df_jobs)
+
+    print(f"\n✅ 전처리 완료: 최종 {len(df_jobs)}행")
