@@ -71,6 +71,18 @@ API문서 : http://localhost:8000/docs
  - job_type : 직무 분야
  - deadline : 지원 마감일
 
+## Pandas 데이터 전처리
+ - 결측치 처리
+ - 중복 데이터 제거
+ - 스킬명 표준화
+ - 분석 가능한 형태로 데이터 정제
+
+## SQLite 저장
+ - 전처리된 채용 공고 데이터를 SQLite 데이터베이스에 저장하여 구조화된 조회가 가능하도록 구성했습니다.
+
+## RAG 문서 생성
+ - 채용 공고 데이터를 LLM이 이해하기 쉬운 텍스트 형태로 변환하여 rag_documents.json을 생성했습니다.
+
 ## 진행 현황
 
 
@@ -79,7 +91,7 @@ API문서 : http://localhost:8000/docs
 
 - [x] 2일차: FastAPI 서버 구축 및 Gemini API 연결
 
-- [ ] 3일차: 데이터 파이프라인 구축
+- [x] 3일차: 데이터 파이프라인 구축
 
 - [ ] 4일차: RAG 기반 서비스 + React UI
 
