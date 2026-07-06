@@ -1,4 +1,4 @@
-id,company,title,required_skills,preferred_skills,description,job_type,deadline
+id,company,company_type,title,required_skills,preferred_skills,description,job_type,deadline
 1,테크스타트업A,데이터 분석가,"Python, SQL, 통계","R, Tableau, 시각화","사용자 행동 데이터를 분석해 비즈니스 인사이트를 도출합니다. A/B 테스트 설계 및 결과 해석 업무를 담당합니다.",데이터 분석,2026-08-31
 2,금융서비스B,데이터 엔지니어,"Python, Spark, SQL","Kafka, Airflow, AWS","대용량 금융 거래 데이터 파이프라인을 설계하고 운영합니다. ETL 프로세스 개발 및 데이터 품질 관리를 담당합니다.",데이터 엔지니어링,2026-09-15
 3,AI솔루션C,머신러닝 엔지니어,"python, PyTorch, 딥러닝","TensorFlow, CUDA, MLOps","AI 모델 개발 및 서비스 배포를 담당합니다. 자연어 처리 및 컴퓨터 비전 프로젝트에 참여합니다.",AI/ML,2026-08-20
