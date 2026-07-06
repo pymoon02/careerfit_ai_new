@@ -12,6 +12,8 @@ import json
 
 import os
 
+from datetime import date
+
 
 
 # ─── 1. 파일 경로 설정 
@@ -338,6 +340,15 @@ def convert_to_rag_documents(df: pd.DataFrame) -> list:
     documents = []
 
     for _, row in df.iterrows():
+        deadline = str(row.get("deadline", ""))
+
+        if deadline:
+            deadline_month = deadline.split("-")[1]
+        else:
+            deadline_month = ""
+
+        company_type = str(row.get("company_type", ""))
+        indexed_at = str(datetime.date.today())
         # 자연어 문서 텍스트 생성
         doc_text = (
             f"{row.get('company', '')}에서 {row.get('title', '')}를 채용합니다. "
@@ -346,6 +357,9 @@ def convert_to_rag_documents(df: pd.DataFrame) -> list:
             f"업무 내용: {row.get('description', '정보 없음')}"
         )
 
+        deadline = str(row.get("deadline", ""))
+        company = str(row.get("company", ""))
+
         # metadata: 검색 결과를 필터링하거나 출처를 표시할 때 사용합니다
         metadata = {
             "id": str(row.get("id", "")),
@@ -353,7 +367,10 @@ def convert_to_rag_documents(df: pd.DataFrame) -> list:
             "title": str(row.get("title", "")),
             "job_type": str(row.get("job_type", "")),
             "deadline": str(row.get("deadline", "")),
-            "source": "jobs.csv"
+            "source": "jobs.csv",
+            "deadline_month": deadline[5:7] if len(deadline) >= 7 and deadline[4] == "-" else "",
+            "is_startup": "true" if "스타트업" in company else "false",
+            "first_saved_date": date.today().isoformat()
         }
 
         documents.append({
@@ -390,6 +407,6 @@ if __name__ == "__main__":
     df_jobs = standardize_skills(df_jobs)
     save_to_sqlite(df_jobs, DB_PATH)
     query_sqlite(DB_PATH)
-    rag_docs = convert_to_rag_documents(df_jobs) 
+    rag_docs = convert_to_rag_documents(df_jobs)
     save_rag_documents(rag_docs, RAG_JSON)        
     print(f"\n✅ 전처리 완료: 최종 {len(df_jobs)}행, RAG 문서 {len(rag_docs)}개")
