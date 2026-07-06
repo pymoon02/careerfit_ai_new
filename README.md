@@ -83,6 +83,22 @@ API문서 : http://localhost:8000/docs
 ## RAG 문서 생성
  - 채용 공고 데이터를 LLM이 이해하기 쉬운 텍스트 형태로 변환하여 rag_documents.json을 생성했습니다.
 
+
+## 프론트엔드 실행 방법
+
+cd frontend
+npm install
+npm run dev
+
+프론트엔드: http://localhost:5173
+백엔드 API: http://localhost:8000/docs
+
+## 주요 기능
+
+- [x] 역량 분석 입력 폼 (전공·스킬·관심 직무)
+- [x] RAG 기반 AI 분석 결과 카드
+- [x] 출처 공고 카드 (어떤 데이터를 근거로 했는지 표시)
+
 ## 진행 현황
 
 
@@ -93,6 +109,6 @@ API문서 : http://localhost:8000/docs
 
 - [x] 3일차: 데이터 파이프라인 구축
 
-- [ ] 4일차: RAG 기반 서비스 + React UI
+- [x] 4일차: RAG 기반 서비스 + React UI
 
 - [ ] 5일차: Docker + 포트폴리오 완성
