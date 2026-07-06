@@ -383,34 +383,13 @@ def save_rag_documents(documents: list, json_path: str) -> None:
 
 # main 블록에서 실행
 if __name__ == "__main__":
-
-    # 1. 읽기
-
     df_jobs = load_data(JOBS_CSV)
-
-    # 2. 결측치 확인
-
     df_jobs = check_missing(df_jobs)
-
-    # 3. 결측치 처리
-
     df_jobs = handle_missing(df_jobs)
-
-    # 4. 중복 제거
-
     df_jobs = remove_duplicates(df_jobs)
-
-    # 5. 스킬 키워드 표준화
-
     df_jobs = standardize_skills(df_jobs)
-
-    # 6. SQLite 저장
     save_to_sqlite(df_jobs, DB_PATH)
-
-    # 7. SQLite 조회
     query_sqlite(DB_PATH)
-
-    # 8. RAG 문서 변환
-    save_rag_documents(rag_docs, RAG_JSON)
-
-    print(f"\n✅ 전처리 완료: 최종 {len(df_jobs)}행")
+    rag_docs = convert_to_rag_documents(df_jobs) 
+    save_rag_documents(rag_docs, RAG_JSON)        
+    print(f"\n✅ 전처리 완료: 최종 {len(df_jobs)}행, RAG 문서 {len(rag_docs)}개")
